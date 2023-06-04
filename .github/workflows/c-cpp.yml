@@ -13,7 +13,7 @@ jobs:
         run: |
           make
       - name: build
-      - uses: notcomsed/Release@v1
+      - uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
