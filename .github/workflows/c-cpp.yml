@@ -12,15 +12,6 @@ jobs:
       - name: Build release
         run: |
           make
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-
       - name: Upload release asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1.0.1
