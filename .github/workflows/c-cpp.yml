@@ -20,10 +20,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release
-
-            * Released test
+          body: 'See the assets to download this version and install.'
 
       - name: Upload release asset
         id: upload-release-asset
