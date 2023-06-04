@@ -13,7 +13,7 @@ jobs:
         run: |
           make
       - name: build
-      - uses: tauri-apps/tauri-action@v0
+      - uses: notcomsed/Release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
