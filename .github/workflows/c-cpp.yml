@@ -15,5 +15,5 @@ jobs:
       - name: Upload release 
         uses: actions/upload-artifact@v3
         with:
-          name: lib
-          path: lib
+          name: release
+          path: ./
