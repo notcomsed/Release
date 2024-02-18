@@ -1,42 +1,39 @@
-name: Release
+name: Release and upload assets
+
 on:
   push:
     branches:
       - main
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Build release
-        run: |
-          rustc --version 
-          cargo --version
-          go version
-          gcc -v
-          mkdir ./release
-          make
-          mv ./test1 ./release/test1
-      - name: Create Release
-        id: create_release
-        uses: softprops/action-gh-release@v0.1.6
-        with:
-         files: |
-           ./release/*
-         token: ${{ secrets.GITHUB_TOKEN }}
-         tag_name: v${{ github.run_number }}
-         release_name: Release ${{ github.run_number }}
-         body: |
-           Release ${{ github.run_number }}
 
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-         upload_url: ${{ steps.create_release.outputs.upload_url }}
-         asset_path: ./release/test1
-         asset_name: test1
-         asset_content_type: application/octet-stream
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Build release
+      run: |
+          mkdir ./dist
+          cp test.c ./dist
+
+    - name: Create Release
+      id: create_release
+      uses: softprops/action-gh-release@v0.1.6
+      with:
+        files: |
+          ./dist/*
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag_name: v${{ github.run_number }}
+
+    - name: Upload Release Asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./dist/my-asset.zip
+        asset_name: my-asset.zip
+        asset_content_type: application/zip
