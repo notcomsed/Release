@@ -11,6 +11,10 @@ jobs:
         uses: actions/checkout@v3
       - name: Build release
         run: |
+          rustc --version 
+          cargo --version
+          go version
+          gcc -v
           mkdir ./release
           make
           mv ./test1 ./release/test1
@@ -19,3 +23,14 @@ jobs:
         with:
           name: release
           path: ./release
+      - name: Release and upload assets
+        uses: softprops/action-gh-release@v0.1.6
+        with:
+          name: ${{ env.RELEASE_NAME }}
+          tag_name: ${{ env.TAG_NAME }}
+          draft: false
+          prerelease: false
+          files: |
+            ./release/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
